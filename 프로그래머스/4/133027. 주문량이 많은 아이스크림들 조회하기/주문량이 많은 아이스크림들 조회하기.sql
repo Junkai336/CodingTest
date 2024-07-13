@@ -1,0 +1,22 @@
+SELECT
+    FH.FLAVOR
+FROM
+    FIRST_HALF AS FH
+JOIN
+    (
+        SELECT
+            SHIPMENT_ID
+            ,FLAVOR
+            ,SUM(TOTAL_ORDER) AS JU_TOTAL_ORDER
+        FROM
+            JULY
+        GROUP BY
+            FLAVOR
+    ) AS JU
+ON
+    FH.FLAVOR = JU.FLAVOR
+GROUP BY
+    FH.FLAVOR
+ORDER BY
+    SUM(FH.TOTAL_ORDER + JU_TOTAL_ORDER) DESC
+LIMIT 3
