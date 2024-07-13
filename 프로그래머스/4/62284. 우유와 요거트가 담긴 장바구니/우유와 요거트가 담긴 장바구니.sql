@@ -1,0 +1,19 @@
+WITH CRM AS (
+    SELECT
+        *
+    FROM
+        CART_PRODUCTS
+    WHERE
+        NAME LIKE '%Milk%'
+)
+
+SELECT DISTINCT
+    CRM.CART_ID
+FROM
+    CART_PRODUCTS AS CRY
+JOIN
+    CRM
+ON
+    CRY.CART_ID = CRM.CART_ID
+WHERE
+    CRY.NAME LIKE '%Yogurt%'
