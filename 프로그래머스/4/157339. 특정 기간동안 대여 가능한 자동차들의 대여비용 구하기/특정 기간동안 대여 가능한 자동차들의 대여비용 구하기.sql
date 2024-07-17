@@ -1,0 +1,34 @@
+SELECT
+    CRC.CAR_ID
+    ,CRC.CAR_TYPE
+    ,CAST(CRC.DAILY_FEE * 30 * (1 - CRP.DISCOUNT_RATE / 100) AS UNSIGNED) AS FEE
+    
+FROM
+    CAR_RENTAL_COMPANY_CAR AS CRC
+JOIN
+    CAR_RENTAL_COMPANY_DISCOUNT_PLAN AS CRP
+ON
+    CRC.CAR_TYPE = CRP.CAR_TYPE AND CRP.DURATION_TYPE = '30일 이상'
+    
+WHERE
+    CRC.CAR_TYPE IN ('세단', 'SUV') AND
+    NOT EXISTS (
+                SELECT 
+                    1
+                FROM 
+                    CAR_RENTAL_COMPANY_RENTAL_HISTORY AS CRH
+                WHERE 
+                    CRH.CAR_ID = CRC.CAR_ID AND
+                    CRH.START_DATE <= '2022-11-30' AND
+                    CRH.END_DATE >= '2022-11-01'
+    )
+    
+GROUP BY
+    CRC.CAR_ID
+HAVING
+    FEE >= 500000 AND FEE < 2000000
+    
+ORDER BY
+    FEE DESC
+    ,CRC.CAR_TYPE ASC
+    ,CRC.CAR_ID DESC
