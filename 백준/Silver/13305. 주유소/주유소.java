@@ -10,8 +10,8 @@ public class Main {
         StringTokenizer st = new StringTokenizer(br.readLine());
 
         int N = Integer.parseInt(st.nextToken());   // 도시 개수
-        long[] distance = new long[N + 1];          // 도로의 길이
-        long[] price = new long[N + 1];             // 기름 가격
+        long[] distance = new long[N - 1];          // 도로의 길이
+        long[] price = new long[N];                 // 기름 가격
 
         st = new StringTokenizer(br.readLine());
         for (int i = 0; i < N - 1; i++) {
@@ -19,7 +19,7 @@ public class Main {
         }
 
         st = new StringTokenizer(br.readLine());
-        for (int i = 0; i < N - 1; i++) {
+        for (int i = 0; i < N; i++) {
             price[i] = Long.parseLong(st.nextToken());
         }
 
@@ -29,7 +29,7 @@ public class Main {
         for(int i = 0; i < distance.length; i++) {
             long currentPrice = price[i];
 
-            if(minPrice < currentPrice) {
+            if(minPrice > currentPrice) {
                 minPrice = currentPrice;
             }
             minTotalPrice += minPrice * distance[i];
